@@ -91,14 +91,69 @@ export const steps = [
 
 
 /* ------------------------------------------------------------------
- * PATIENT REVIEWS: real ones only.
- * Copy them from the clinic's Google Maps listing (Reviews tab) or Facebook page.
- * Use the reviewer's name exactly as it is published there (or first name + initial),
- * and only with the clinic's OK. While this list is empty, the Reviews section shows
- * links to the live Google and Facebook reviews instead of a quote.
- *   { quote: 'Exact review text', name: 'Ayesha K.', source: 'Google review', rating: 5 },
+ * PATIENT REVIEWS: copied word for word from the clinic's Google Maps listing.
+ * Captured 12 November 2026 (dates are relative to that day). Google shows the
+ * newest 8 publicly; the full list is linked from the section.
  * ------------------------------------------------------------------ */
-export const reviews = []
+export const reviewSummary = { rating: 4.9, count: 133, capturedOn: 'November 2026' }
+export const reviews = [
+  {
+    quote: "I recently underwent gynecomastia surgery with Dr. Khalil Ahmad, and I couldn't be more grateful for the care I received. From the very first consultation, he made everything easy to understand, answered all my questions patiently, and made me feel genuinely comfortable.\n\nThe surgery went smoothly, and even during recovery, he was always available for support. The entire staff were absolutely brilliant.\n\nI'm now healing well and already feeling more confident. Highly recommend him not just for his skill, but also for how approachable and professional he is throughout the entire process. Thank you, Dr.khalil Ahmad!",
+    name: "Qamar Zeeshan",
+    source: "Google review",
+    rating: 5,
+    date: "6 months ago"
+  },
+  {
+    quote: "Excellent experience from start to finish. Dr Khalil was very supportive, explained everything clearly, and performed my gynecomastia surgery with great skill. The results are outstanding, and the post-surgery care was just as good. Highly recommended!",
+    name: "Muhammad Hashir",
+    source: "Google review",
+    rating: 5,
+    date: "6 months ago"
+  },
+  {
+    quote: "I had surgery with Dr. Khalil a few days ago. The doctor is a good surgeon and a very good person hospital and the staff are very good. I would recommend Body Art Hospital for your surgery.✨",
+    name: "Zawar Inaam",
+    source: "Google review",
+    rating: 5,
+    date: "6 months ago"
+  },
+  {
+    quote: "“Respected Dr.Hafiz Khalil ahmed,\nYour professionalism, humility, and remarkable surgical skills are truly admirable. Thank you for performing my procedure with such care and perfection within bearable charges. The confidence I have gained after this surgery is priceless. I sincerely appreciate everything you have done for me. ALLAH almighty bless you and your team Ameen.",
+    name: "Mr ZEESHAN",
+    source: "Google review",
+    rating: 5,
+    date: "7 months ago"
+  },
+  {
+    quote: "I recently had gynecomastia surgery with Dr.Khalil , and I am very happy with the results! Not only was the procedure a success, but Dr. Khalil and his team were extremely professional, caring, and supportive throughout the entire process.\n\nFrom the initial consultation to the follow-up care, I felt like I was in good hands. Dr. Khalil took the time to explain everything, answer my questions, and address my concerns. His expertise and bedside manner are top-notch!\n\nThe results are amazing, and I'm loving my new confidence. I'd highly recommend Dr khalil to anyone considering gynecomastia surgery or other procedures. Five stars isn't enough - I'd give him ten stars if I could!\"",
+    name: "Nouman Ali",
+    source: "Google review",
+    rating: 5,
+    date: "11 months ago"
+  },
+  {
+    quote: "I had my gynecomastia surgery done by Dr. Khalil Ahmad on October 5th and now that it’s been 2 months, I can confidently say it was one of the best decisions I’ve ever made...From the very beginning Dr. Khalil was professional, honest and reassuring...He explained everything clearly and made me feel comfortable throughout the entire process...The surgery itself went smoothly and the recovery was much easier than I expected...Today, two months later, I’m extremely happy with the results...My chest looks natural, the symmetry is perfect, and my confidence has gone up more than I can express...The scars are minimal and healing very well. I finally feel comfortable wearing fitted shirts and going to the gym again...I truly appreciate Dr. Khalil Ahmad’s skill, care, and expertise...If anyone is considering gynecomastia surgery, I highly recommend him...This has been a life-changing experience for me ❤️",
+    name: "Swaleh Lali Swaleh",
+    source: "Google review",
+    rating: 5,
+    date: "11 months ago"
+  },
+  {
+    quote: "Dr. Khalil was amazing throughout my entire treatment. The care and attention to detail they provided made me feel completely at ease. The results matched my expectations, and I’m so happy with the outcome! I highly recommend their services to anyone looking for a professional, skilled surgeon.",
+    name: "Mehar Zaib",
+    source: "Google review",
+    rating: 5,
+    date: "10 months ago"
+  },
+  {
+    quote: "Best plastic surgeon in Lahore. “Dr. Khalil is hands down the best plastic surgeon in Lahore! From the very first consultation, he made me feel comfortable and thoroughly explained every step of the process. His expertise, professionalism, and attention to detail are unmatched. The results exceeded my expectations, and I couldn’t be happier with how natural and flawless everything turned out. The clinic staff is also very kind and supportive, ensuring a smooth and stress-free experience. I highly recommend Dr. Khalil to anyone seeking exceptional plastic surgery in Lahore!”",
+    name: "Salman Malik",
+    source: "Google review",
+    rating: 5,
+    date: "a year ago"
+  }
+]
 
 /* Clinic numbers. Left EMPTY on purpose: the section is hidden until real, verifiable
  * figures are added (no invented statistics). Example:

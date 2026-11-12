@@ -1,102 +1,112 @@
-import { useState } from 'react'
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
-import { Label, SocialIcon, btn } from './ui'
-import { clinic, reviews, logo } from '../data'
+import { useLayoutEffect, useRef, useState } from 'react'
+import { Star } from 'lucide-react'
+import { SectionHeading, SocialIcon, btn } from './ui'
+import { clinic, reviews, reviewSummary } from '../data'
 
-const initials = (name) => name.split(/\s+/).map((p) => p[0]).join('').slice(0, 2).toUpperCase()
+const initials = (name) => name.replace(/[^\p{L}\s]/gu, '').split(/\s+/).filter(Boolean).map((p) => p[0]).join('').slice(0, 2).toUpperCase()
 
-/** Big, flat closing-quote mark in peach (decorative). */
-function QuoteMark() {
+/** Official Google "G" mark (flat brand colours). */
+function GoogleG({ className = 'h-5 w-5' }) {
   return (
-    <span aria-hidden
-      className="pointer-events-none absolute -top-4 right-5 hidden select-none font-serif text-[10rem] font-bold leading-none text-peach sm:block">
-      ”
+    <svg viewBox="0 0 48 48" className={className} aria-hidden>
+      <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.4-.4-3.5z" />
+      <path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+      <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+      <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z" />
+    </svg>
+  )
+}
+
+function Stars({ rating, className = 'h-4 w-4' }) {
+  return (
+    <span className="flex gap-0.5" role="img" aria-label={`Rated ${rating} out of 5`}>
+      {Array.from({ length: 5 }).map((_, n) => (
+        <Star key={n} aria-hidden className={`${className} ${n < Math.round(rating) ? 'fill-gold text-gold' : 'text-line'}`} />
+      ))}
     </span>
   )
 }
 
-function ReviewCard() {
-  const [i, setI] = useState(0)
-  const r = reviews[i]
-  const go = (d) => setI((n) => (n + d + reviews.length) % reviews.length)
-
+function ReviewCard({ r }) {
+  const [open, setOpen] = useState(false)
+  const [long, setLong] = useState(false)
+  const textRef = useRef(null)
+  // Show "Read more" only when the 5-line clamp actually hides text.
+  useLayoutEffect(() => {
+    const el = textRef.current
+    const check = () => { if (!open) setLong(el.scrollHeight > el.clientHeight + 2) }
+    check()
+    const ro = new ResizeObserver(check); ro.observe(el)
+    document.fonts?.ready.then(check) // web font changes line breaks
+    window.addEventListener('resize', check)
+    return () => { ro.disconnect(); window.removeEventListener('resize', check) }
+  }, [open])
   return (
-    <div aria-live="polite" className="relative">
-      <blockquote className="relative z-10 italic text-muted">“{r.quote}”</blockquote>
-      {r.rating ? (
-        <div className="relative z-10 mt-5 flex gap-1" role="img" aria-label={`Rated ${r.rating} out of 5`}>
-          {Array.from({ length: 5 }).map((_, n) => (
-            <Star key={n} aria-hidden className={`h-4 w-4 ${n < r.rating ? 'fill-gold text-gold' : 'text-line'}`} />
-          ))}
-        </div>
-      ) : null}
-      <figcaption className="relative z-10 mt-6 flex items-center gap-3">
-        <span aria-hidden className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-navy font-black text-white">
+    <figure className="flex h-full flex-col rounded-[var(--img-radius)] border border-line bg-white p-5 sm:p-6">
+      <figcaption className="flex items-start gap-3">
+        <span aria-hidden className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-peach font-black text-gold-ink">
           {initials(r.name)}
         </span>
-        <span className="leading-tight">
-          <span className="block font-black text-navy">{r.name}</span>
-          <span className="block text-meta text-muted">{r.source}</span>
+        <span className="min-w-0 flex-1 leading-tight">
+          <span className="block truncate font-black text-navy">{r.name}</span>
+          <span className="block text-meta text-muted">{r.date}</span>
         </span>
+        <GoogleG />
       </figcaption>
-      {reviews.length > 1 && (
-        <div className="relative z-10 mt-6 flex items-center gap-2">
-          <button type="button" onClick={() => go(-1)} aria-label="Previous review"
-            className="grid h-11 w-11 place-items-center rounded-lg border border-line text-navy transition-colors hover:border-gold hover:text-gold-ink">
-            <ChevronLeft className="h-5 w-5" aria-hidden />
-          </button>
-          <button type="button" onClick={() => go(1)} aria-label="Next review"
-            className="grid h-11 w-11 place-items-center rounded-lg border border-line text-navy transition-colors hover:border-gold hover:text-gold-ink">
-            <ChevronRight className="h-5 w-5" aria-hidden />
-          </button>
-          <span className="ml-2 text-meta tabular-nums text-muted">{i + 1} / {reviews.length}</span>
-        </div>
+      <div className="mt-3"><Stars rating={r.rating} /></div>
+      <blockquote ref={textRef} className={`mt-3 whitespace-pre-line text-[0.9375rem] leading-relaxed text-muted ${open ? '' : 'line-clamp-5'}`}>
+        {r.quote}
+      </blockquote>
+      {(long || open) && (
+        <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open}
+          className="mt-1 inline-flex min-h-11 items-center self-start text-meta font-bold text-gold-ink underline-offset-4 hover:underline">
+          {open ? 'Show less' : 'Read more'}
+        </button>
       )}
-    </div>
-  )
-}
-
-/** Shown until real reviews are added in data.js: sends people to the live, public reviews. */
-function ReviewLinks() {
-  return (
-    <div className="relative z-10">
-      <Label>Patient reviews</Label>
-      <h2 className="text-h3 text-navy">Read what patients say, in their own words.</h2>
-      <p className="mt-3 text-muted">Reviews of {clinic.name} are published on Google Maps and Facebook.</p>
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        <a href={clinic.maps} target="_blank" rel="noreferrer" className={btn.gold}>Read Google reviews</a>
-        <a href={clinic.facebook} target="_blank" rel="noreferrer" className={btn.outline}>
-          <SocialIcon name="facebook" /> Facebook page
-        </a>
-      </div>
-    </div>
+    </figure>
   )
 }
 
 /**
- * Reviews: photo on the left, solid navy panel on the right, and a white card that
- * overlaps both. Phones: photo on top, card overlapping the photo and the navy band.
- * Only real reviews (data.js) are ever shown as quotes.
+ * Patient reviews: real Google reviews of the clinic (copied word for word, see data.js),
+ * a rating summary badge, and links to the full list on Google Maps and Facebook.
  */
 export default function Testimonial() {
   return (
-    <section id="testimonials" aria-label="Patient reviews" className="container-x pb-16 md:pb-24">
-      <div className="relative overflow-hidden rounded-[var(--img-radius)] bg-navy md:grid md:min-h-[clamp(460px,40vw,540px)] md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-        <div data-img-reveal className="relative grid aspect-[16/10] place-items-center overflow-hidden bg-peach md:aspect-auto">
-          <div className="flex flex-col items-center gap-3 px-6 pb-16 text-center md:pb-0">
-            <img src={logo} alt="" width="64" height="97" className="h-24 w-auto" />
-            <p className="text-h3 font-black text-navy">{clinic.name}</p>
-            <p className="-mt-2 text-meta font-bold uppercase tracking-[0.14em] text-gold-ink">{clinic.specialty}</p>
-          </div>
-        </div>
-        <div aria-hidden className="hidden md:block" />
+    <section id="testimonials" aria-label="Patient reviews" className="section-y bg-peach">
+      <div className="container-x">
+        <SectionHeading center label="Google reviews" title="What our patients say" />
 
-        <figure data-reveal
-          className="relative z-10 mx-4 -mt-16 mb-4 overflow-hidden rounded-[var(--img-radius)] bg-white p-7 sm:mx-8 sm:p-10
-            md:absolute md:right-[18%] md:top-1/2 md:m-0 md:w-[min(460px,44%)] md:-translate-y-1/2">
-          <QuoteMark />
-          {reviews.length ? <ReviewCard /> : <ReviewLinks />}
-        </figure>
+        <a href={clinic.maps} target="_blank" rel="noreferrer" data-reveal
+          className="mx-auto mt-8 flex w-fit max-w-full items-center gap-4 rounded-[var(--img-radius)] border border-line bg-white px-5 py-4 transition-colors hover:border-gold">
+          <GoogleG className="h-9 w-9 shrink-0" />
+          <span className="leading-tight">
+            <span className="block font-black text-navy">{clinic.name}, {clinic.specialty}</span>
+            <span className="mt-1 flex flex-wrap items-center gap-x-2">
+              <span className="text-h3 font-black text-navy">{reviewSummary.rating.toFixed(1)}</span>
+              <Stars rating={reviewSummary.rating} />
+              <span className="text-meta text-muted">{reviewSummary.count} Google reviews</span>
+            </span>
+          </span>
+        </a>
+
+        <ul data-stagger className="mt-10 grid items-start gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {reviews.map((r) => (
+            <li key={r.name}><ReviewCard r={r} /></li>
+          ))}
+        </ul>
+
+        <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <a href={clinic.maps} target="_blank" rel="noreferrer" className={btn.gold}>
+            See all {reviewSummary.count} reviews on Google
+          </a>
+          <a href={clinic.facebook} target="_blank" rel="noreferrer" className={btn.outline}>
+            <SocialIcon name="facebook" /> Facebook page
+          </a>
+        </div>
+        <p className="mt-4 text-center text-meta text-muted">
+          Reviews shown as published on Google, captured {reviewSummary.capturedOn}.
+        </p>
       </div>
     </section>
   )
