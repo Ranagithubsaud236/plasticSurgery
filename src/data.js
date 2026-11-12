@@ -54,7 +54,7 @@ export const images = {
   about3: { src: 'photo-1512290923902-8a9f81dc236c', position: 'center' },
   doctorAvatar: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 20%' }, // TODO: real photo of the doctor
   doctor: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 25%' },
-  testimonial: { src: 'photo-1552693673-1bf958298935', position: 'center 35%' }, // facial treatment, karelys Ruiz (free licence)
+  testimonial: { src: '/images/review-facial.png', position: 'center 30%' }, // half-mask facial photo supplied by the client
   reviewer: { src: 'photo-1438761681033-6461ffad8d80', position: 'center' },
 }
 

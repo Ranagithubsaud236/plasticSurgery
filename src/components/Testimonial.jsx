@@ -9,7 +9,7 @@ const initials = (name) => name.split(/\s+/).map((p) => p[0]).join('').slice(0, 
 function QuoteMark() {
   return (
     <span aria-hidden
-      className="pointer-events-none absolute -bottom-16 right-5 hidden select-none font-serif text-[12rem] font-bold leading-none text-peach sm:block">
+      className="pointer-events-none absolute -top-4 right-5 hidden select-none font-serif text-[10rem] font-bold leading-none text-peach sm:block">
       ”
     </span>
   )
@@ -81,15 +81,15 @@ function ReviewLinks() {
 export default function Testimonial() {
   return (
     <section id="testimonials" aria-label="Patient reviews" className="container-x pb-16 md:pb-24">
-      <div className="relative overflow-hidden rounded-[var(--img-radius)] bg-navy md:grid md:min-h-[clamp(460px,38vw,540px)] md:grid-cols-[3fr_1fr]">
-        <div data-img-reveal className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] md:aspect-auto">
-          <Img image={images.testimonial} sizes="(min-width: 768px) 75vw, 100vw" alt="" className="absolute inset-0 h-full w-full" />
+      <div className="relative overflow-hidden rounded-[var(--img-radius)] bg-navy md:grid md:min-h-[clamp(460px,40vw,540px)] md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+        <div data-img-reveal className="relative aspect-square overflow-hidden sm:aspect-[16/10] md:aspect-auto">
+          <Img image={images.testimonial} sizes="(min-width: 768px) 50vw, 100vw" alt="" className="absolute inset-0 h-full w-full" />
         </div>
         <div aria-hidden className="hidden md:block" />
 
         <figure data-reveal
           className="relative z-10 mx-4 -mt-16 mb-4 overflow-hidden rounded-[var(--img-radius)] bg-white p-7 sm:mx-8 sm:p-10
-            md:absolute md:right-[7%] md:top-1/2 md:m-0 md:w-[min(440px,42%)] md:-translate-y-1/2">
+            md:absolute md:right-[18%] md:top-1/2 md:m-0 md:w-[min(460px,44%)] md:-translate-y-1/2">
           <QuoteMark />
           {reviews.length ? <ReviewCard /> : <ReviewLinks />}
         </figure>
