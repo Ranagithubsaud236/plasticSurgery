@@ -25,31 +25,39 @@ export function setupHeroExpansion() {
       const img = media.querySelector('img')
       const caption = section.querySelector('[data-hero-caption]')
 
-      // Rounded card that starts just below the headline.
-      // FIX: the photo now COVERS the card (no navy bars on the sides).
-      // The image is object-cover at full section size (W x H), so it is scaled down only as far
-      // as it still covers the card, and centred on it. It grows back to scale 1 as the card expands.
-      const fitStart = () => {
-        const W = section.clientWidth, H = section.clientHeight, w = window.innerWidth
-        const top = text.offsetTop + text.offsetHeight + (w < 768 ? 20 : 32)
-        const bottom = w < 768 ? 16 : 32
-        const side = w < 768 ? 16 : Math.max(32, (w - 1280) / 2 + 32)
-        const cardH = H - top - bottom, cardW = W - side * 2
-        const scale = Math.max(cardW / W, cardH / H)
-        return { scale, y: top + cardH / 2 - H / 2 }
+      // The photo is sized like CSS "cover" for the whole hero (no empty bars anywhere), with the
+      // head kept in frame. It starts as a portrait card under the headline in which the WHOLE
+      // photo is visible, then the card and photo grow together until the photo covers the hero.
+      const FOCUS_Y = 0 // crop from the bottom only, so his full head always stays in view
+      const ratio = () => (img.naturalWidth || 1704) / (img.naturalHeight || 1696)
+      const layout = () => {
+        const W = section.clientWidth, H = section.clientHeight, r = ratio()
+        const rw = Math.max(W, H * r), rh = rw / r
+        const top = -(rh - H) * FOCUS_Y
+        gsap.set(img, { width: rw, height: rh, left: (W - rw) / 2, top, xPercent: 0 })
+        return { W, H, rw, rh, top }
       }
-
-      const cardClip = () => {
+      const card = () => {
+        const { W, H, rw, rh, top } = layout()
         const w = window.innerWidth
-        const side = w < 768 ? 16 : Math.max(32, (w - 1280) / 2 + 32)
-        const top = text.offsetTop + text.offsetHeight + (w < 768 ? 20 : 32)
-        return `inset(${top}px ${side}px ${w < 768 ? 16 : 32}px ${side}px round 24px)`
+        const cardTop = text.offsetTop + text.offsetHeight + (w < 768 ? 20 : 32)
+        const cardBottom = w < 768 ? 16 : 32
+        const cardH = H - cardTop - cardBottom
+        const maxW = W - (w < 768 ? 32 : 64)
+        const cardW = Math.min(maxW, cardH * ratio())
+        const side = (W - cardW) / 2
+        const scale = Math.max(cardW / rw, cardH / rh) // whole photo fills the card
+        return {
+          clip: `inset(${cardTop}px ${side}px ${cardBottom}px ${side}px round 24px)`,
+          scale,
+          y: cardTop + cardH / 2 - (top + rh / 2), // centre the photo on the card
+        }
       }
 
       const mm = gsap.matchMedia()
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        const apply = () => { gsap.set(media, { clipPath: cardClip() }); gsap.set(img, fitStart()) }
+        const apply = () => { const c = card(); gsap.set(media, { clipPath: c.clip }); gsap.set(img, { scale: c.scale, y: c.y }) }
         apply()
         ScrollTrigger.addEventListener('refreshInit', apply)
         window.addEventListener('resize', apply)
@@ -72,8 +80,8 @@ export function setupHeroExpansion() {
             invalidateOnRefresh: true,
           },
         })
-        tl.fromTo(media, { clipPath: cardClip }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: 1 }, 0)
-          .fromTo(img, { scale: () => fitStart().scale, y: () => fitStart().y }, { scale: 1, y: 0, duration: 1 }, 0)
+        tl.fromTo(media, { clipPath: () => card().clip }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: 1 }, 0)
+          .fromTo(img, { scale: () => card().scale, y: () => card().y }, { scale: 1, y: 0, duration: 1 }, 0)
           .to(text, { y: -60, opacity: 0, duration: 0.35 }, 0)
           .fromTo(caption, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.3 }, 0.65)
           .to({}, { duration: 0.15 }) // short hold on the full-screen frame before unpinning
@@ -89,7 +97,8 @@ export default function Hero() {
       <section id="home" className="relative h-[calc(100svh-var(--nav-h))] min-h-[600px] overflow-hidden bg-white">
         {/* Full-bleed photo layer, clipped into a rounded card, then expanded by scroll */}
         <div data-hero-media className="absolute inset-0 overflow-hidden bg-navy">
-          <Img image={images.hero} priority sizes="100vw" alt="Dr Khalil Ahmad, plastic surgeon" className="h-full w-full object-cover object-[50%_20%]" />
+          <Img image={images.hero} priority sizes="100vw" alt="Dr Khalil Ahmad, plastic surgeon"
+            onLoad={() => ScrollTrigger.refresh()} className="absolute max-w-none origin-center" />
         </div>
 
         {/* Headline (above the card) */}

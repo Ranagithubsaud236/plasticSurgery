@@ -45,7 +45,7 @@ export const sections = [
  * ------------------------------------------------------------------ */
 export const logo = '/images/logo.png'
 export const images = {
-  hero: { src: '/images/dr-khalil-ahmad.jpg', fit: 'contain' }, // Dr Khalil Ahmad
+  hero: { src: '/images/dr-khalil-ahmad.jpg' }, // Dr Khalil Ahmad
   about1: { src: '/images/results/hair-transplant-1.png', fit: 'contain' },
   about2: { src: '/images/results/split-ear-1.png', fit: 'contain' },
   about3: { src: '/images/results/gynecomastia-3.png', fit: 'contain' },
