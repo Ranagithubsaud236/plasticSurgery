@@ -11,8 +11,9 @@ const navH = () => document.querySelector('[data-site-nav]')?.offsetHeight ?? 80
  * Scroll-bound hero expansion (scale-to-fill / immersive zoom).
  * 1. Headline sits above a rounded photo "card".
  * 2. While the hero is pinned, scrolling grows the card's frame until the photo fills the screen,
- *    the photo zooms out from 1.18 → 1 (never stretched: object-cover keeps its aspect ratio),
+ *    the photo grows to full height (never cropped, never stretched),
  *    the headline lifts away and a caption fades in.
+ * A blurred copy of the photo fills the rest of the frame, so there are no empty bars.
  * Scrubbed to the scrollbar, so it is user-driven and fully reversible.
  * Reduced motion: no pin, the rounded card layout simply stays.
  */
@@ -22,20 +23,20 @@ export function setupHeroExpansion() {
       if (!section) return
       const text = section.querySelector('[data-hero-text]')
       const media = section.querySelector('[data-hero-media]')
-      const img = media.querySelector('img')
+      const img = media.querySelector('[data-hero-photo] img') // the sharp, whole photo (not the blurred backdrop)
       const caption = section.querySelector('[data-hero-caption]')
 
-      // Rounded card that starts just below the headline.
-      // FIX: the photo now COVERS the card (no navy bars on the sides).
-      // The image is object-cover at full section size (W x H), so it is scaled down only as far
-      // as it still covers the card, and centred on it. It grows back to scale 1 as the card expands.
+      // Whole photo, never cropped: in the starting card it is scaled down to fit the card
+      // and centred in it; as the card expands it grows back to full height.
       const fitStart = () => {
         const W = section.clientWidth, H = section.clientHeight, w = window.innerWidth
         const top = text.offsetTop + text.offsetHeight + (w < 768 ? 20 : 32)
         const bottom = w < 768 ? 16 : 32
         const side = w < 768 ? 16 : Math.max(32, (w - 1280) / 2 + 32)
         const cardH = H - top - bottom, cardW = W - side * 2
-        const scale = Math.max(cardW / W, cardH / H)
+        const r = (img.naturalWidth || 1) / (img.naturalHeight || 1)
+        const h = Math.min(H, W / r)
+        const scale = Math.min(1, cardH / h, cardW / (h * r))
         return { scale, y: top + cardH / 2 - H / 2 }
       }
 
@@ -45,6 +46,9 @@ export function setupHeroExpansion() {
         const top = text.offsetTop + text.offsetHeight + (w < 768 ? 20 : 32)
         return `inset(${top}px ${side}px ${w < 768 ? 16 : 32}px ${side}px round 24px)`
       }
+
+      // naturalWidth is 0 until the photo loads, so re-measure once it has.
+      if (!img.complete) img.addEventListener('load', () => ScrollTrigger.refresh(), { once: true })
 
       const mm = gsap.matchMedia()
 
@@ -89,7 +93,15 @@ export default function Hero() {
       <section id="home" className="relative h-[calc(100svh-var(--nav-h))] min-h-[600px] overflow-hidden bg-white">
         {/* Full-bleed photo layer, clipped into a rounded card, then expanded by scroll */}
         <div data-hero-media className="absolute inset-0 overflow-hidden bg-navy">
-          <Img image={images.hero} priority sizes="100vw" alt="Dr Khalil Ahmad, plastic surgeon" className="h-full w-full object-cover object-[50%_20%]" />
+          {/* Backdrop: blurred, darkened copy of the photo that fills the whole frame (decorative) */}
+          <div aria-hidden className="absolute inset-0 overflow-hidden">
+            <Img image={images.hero} sizes="100vw" alt="" className="h-full w-full scale-110 object-cover blur-2xl" />
+            <div className="absolute inset-0 bg-navy/50" />
+          </div>
+          {/* Foreground: the whole photo, uncropped */}
+          <div data-hero-photo className="absolute inset-0">
+            <Img image={images.hero} priority sizes="100vw" alt="Dr Khalil Ahmad, plastic surgeon" className="h-full w-full object-contain" />
+          </div>
         </div>
 
         {/* Headline (above the card) */}
