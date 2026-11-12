@@ -45,11 +45,11 @@ export const sections = [
  * ------------------------------------------------------------------ */
 export const logo = '/images/logo.png'
 export const images = {
-  hero: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 12%' }, // TODO: stock doctor photo, replace with Dr Khalil Ahmad's own portrait
+  hero: { src: '/images/dr-khalil-ahmad.jpg', fit: 'contain' }, // Dr Khalil Ahmad
   about1: { src: '/images/results/hair-transplant-1.png', fit: 'contain' },
   about2: { src: '/images/results/split-ear-1.png', fit: 'contain' },
   about3: { src: '/images/results/gynecomastia-3.png', fit: 'contain' },
-  doctor: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 15%' }, // TODO: stock doctor photo, replace with Dr Khalil Ahmad's own photo
+  doctor: { src: '/images/dr-khalil-ahmad.jpg', position: 'center 30%' }, // Dr Khalil Ahmad
 }
 
 /* Procedures offered (from the clinic's own services list).

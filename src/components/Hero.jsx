@@ -28,7 +28,19 @@ export function setupHeroExpansion() {
       // Rounded card that starts just below the headline.
       // How far the photo is pushed down so the subject (face) shows inside the starting card,
       // which begins below the headline. It glides back to 0 as the card expands.
-      const faceShift = () => Math.round((text.offsetTop + text.offsetHeight) * 0.85)
+      // Whole photo, never cropped: in the starting card it is scaled down to fit the card
+      // and centred in it; as the card expands it grows back to full height.
+      const fitStart = () => {
+        const W = section.clientWidth, H = section.clientHeight, w = window.innerWidth
+        const top = text.offsetTop + text.offsetHeight + (w < 768 ? 20 : 32)
+        const bottom = w < 768 ? 16 : 32
+        const side = w < 768 ? 16 : Math.max(32, (w - 1280) / 2 + 32)
+        const cardH = H - top - bottom, cardW = W - side * 2
+        const r = (img.naturalWidth || 1) / (img.naturalHeight || 1)
+        const h = Math.min(H, W / r)
+        const scale = Math.min(1, cardH / h, cardW / (h * r))
+        return { scale, y: top + cardH / 2 - H / 2 }
+      }
 
       const cardClip = () => {
         const w = window.innerWidth
@@ -40,7 +52,7 @@ export function setupHeroExpansion() {
       const mm = gsap.matchMedia()
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        const apply = () => { gsap.set(media, { clipPath: cardClip() }); gsap.set(img, { y: faceShift() }) }
+        const apply = () => { gsap.set(media, { clipPath: cardClip() }); gsap.set(img, fitStart()) }
         apply()
         ScrollTrigger.addEventListener('refreshInit', apply)
         window.addEventListener('resize', apply)
@@ -64,7 +76,7 @@ export function setupHeroExpansion() {
           },
         })
         tl.fromTo(media, { clipPath: cardClip }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: 1 }, 0)
-          .fromTo(img, { scale: 1.18, y: faceShift }, { scale: 1, y: 0, duration: 1 }, 0)
+          .fromTo(img, { scale: () => fitStart().scale, y: () => fitStart().y }, { scale: 1, y: 0, duration: 1 }, 0)
           .to(text, { y: -60, opacity: 0, duration: 0.35 }, 0)
           .fromTo(caption, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.3 }, 0.65)
           .to({}, { duration: 0.15 }) // short hold on the full-screen frame before unpinning
@@ -79,8 +91,8 @@ export default function Hero() {
     <>
       <section id="home" className="relative h-[calc(100svh-var(--nav-h))] min-h-[600px] overflow-hidden bg-white">
         {/* Full-bleed photo layer, clipped into a rounded card, then expanded by scroll */}
-        <div data-hero-media className="absolute inset-0 overflow-hidden bg-peach">
-          <Img image={images.hero} priority sizes="100vw" alt="Doctor portrait" className="h-full w-full" />
+        <div data-hero-media className="absolute inset-0 overflow-hidden bg-navy">
+          <Img image={images.hero} priority sizes="100vw" alt="Dr Khalil Ahmad, plastic surgeon" className="h-full w-full" />
         </div>
 
         {/* Headline (above the card) */}
