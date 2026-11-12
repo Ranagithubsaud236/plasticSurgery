@@ -45,6 +45,7 @@ export const sections = [
  * ------------------------------------------------------------------ */
 export const logo = '/images/logo.png'
 export const images = {
+  hero: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 12%' }, // TODO: stock doctor photo, replace with Dr Khalil Ahmad's own portrait
   about1: { src: '/images/results/hair-transplant-1.png', fit: 'contain' },
   about2: { src: '/images/results/split-ear-1.png', fit: 'contain' },
   about3: { src: '/images/results/gynecomastia-3.png', fit: 'contain' },
@@ -58,7 +59,7 @@ export const services = [
   { title: 'Gynecomastia Surgery', text: 'Removes excess breast tissue in men for a flatter, firmer chest.', img: { src: '/images/results/gynecomastia-2.png', fit: 'contain' } },
   { title: 'Belly Liposuction', text: 'Removes stubborn fat from the abdomen and waist to reshape the belly.', img: { src: '/images/results/abdomen-1.png', fit: 'contain' } },
   { title: 'Rhinoplasty / Nose Surgery', text: 'Reshapes the nose to suit your face, and can make breathing easier.', img: { src: '/images/results/rhinoplasty-1.png', fit: 'contain' } },
-  { title: 'Burn Hands and Face Surgery', text: 'Reconstructive surgery to release scars and restore movement and appearance after burns.', img: null },
+  { title: 'Burn Hands and Face Surgery', text: 'Reconstructive surgery to release scars and restore movement and appearance after burns.', img: { src: '/images/results/hand-1.png', fit: 'contain' } },
   { title: 'Lip Surgery', text: 'Corrects, reshapes or repairs the lips, including cleft lip repair.', img: null },
 ]
 
@@ -68,7 +69,7 @@ export const services = [
  * Shown uncropped. procedure must match one of resultFilters.
  * NOTE: these files are 206x206 px; send larger originals to sharpen them.
  * ------------------------------------------------------------------ */
-export const resultFilters = ['Gynecomastia', 'Rhinoplasty', 'Belly liposuction', 'Hair transplant', 'Ear surgery']
+export const resultFilters = ['Gynecomastia', 'Rhinoplasty', 'Belly liposuction', 'Hair transplant', 'Hand surgery', 'Ear surgery']
 export const results = [
   { procedure: 'Gynecomastia', caption: 'Gynecomastia surgery', src: '/images/results/gynecomastia-2.png' },
   { procedure: 'Rhinoplasty', caption: 'Rhinoplasty, front and base views', src: '/images/results/rhinoplasty-1.png' },
@@ -78,6 +79,7 @@ export const results = [
   { procedure: 'Belly liposuction', caption: 'Abdomen liposuction, side view', src: '/images/results/abdomen-2.png' },
   { procedure: 'Gynecomastia', caption: 'Gynecomastia surgery, side view', src: '/images/results/gynecomastia-1.png' },
   { procedure: 'Hair transplant', caption: 'Hair transplant', src: '/images/results/hair-transplant-1.png' },
+  { procedure: 'Hand surgery', caption: 'Hand surgery, finger release', src: '/images/results/hand-1.png' },
   { procedure: 'Ear surgery', caption: 'Split ear repair', src: '/images/results/split-ear-1.png' },
 ]
 
