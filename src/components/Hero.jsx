@@ -26,19 +26,16 @@ export function setupHeroExpansion() {
       const caption = section.querySelector('[data-hero-caption]')
 
       // Rounded card that starts just below the headline.
-      // How far the photo is pushed down so the subject (face) shows inside the starting card,
-      // which begins below the headline. It glides back to 0 as the card expands.
-      // Whole photo, never cropped: in the starting card it is scaled down to fit the card
-      // and centred in it; as the card expands it grows back to full height.
+      // FIX: the photo now COVERS the card (no navy bars on the sides).
+      // The image is object-cover at full section size (W x H), so it is scaled down only as far
+      // as it still covers the card, and centred on it. It grows back to scale 1 as the card expands.
       const fitStart = () => {
         const W = section.clientWidth, H = section.clientHeight, w = window.innerWidth
         const top = text.offsetTop + text.offsetHeight + (w < 768 ? 20 : 32)
         const bottom = w < 768 ? 16 : 32
         const side = w < 768 ? 16 : Math.max(32, (w - 1280) / 2 + 32)
         const cardH = H - top - bottom, cardW = W - side * 2
-        const r = (img.naturalWidth || 1) / (img.naturalHeight || 1)
-        const h = Math.min(H, W / r)
-        const scale = Math.min(1, cardH / h, cardW / (h * r))
+        const scale = Math.max(cardW / W, cardH / H)
         return { scale, y: top + cardH / 2 - H / 2 }
       }
 
@@ -92,7 +89,7 @@ export default function Hero() {
       <section id="home" className="relative h-[calc(100svh-var(--nav-h))] min-h-[600px] overflow-hidden bg-white">
         {/* Full-bleed photo layer, clipped into a rounded card, then expanded by scroll */}
         <div data-hero-media className="absolute inset-0 overflow-hidden bg-navy">
-          <Img image={images.hero} priority sizes="100vw" alt="Dr Khalil Ahmad, plastic surgeon" className="h-full w-full" />
+          <Img image={images.hero} priority sizes="100vw" alt="Dr Khalil Ahmad, plastic surgeon" className="h-full w-full object-cover object-[50%_20%]" />
         </div>
 
         {/* Headline (above the card) */}
