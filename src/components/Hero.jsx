@@ -28,36 +28,41 @@ export function setupHeroExpansion() {
       // The photo is sized like CSS "cover" for the whole hero (no empty bars anywhere), with the
       // head kept in frame. It starts as a portrait card under the headline in which the WHOLE
       // photo is visible, then the card and photo grow together until the photo covers the hero.
-      const FOCUS_Y = 0 // crop from the bottom only, so his full head always stays in view
       const ratio = () => (img.naturalWidth || 1704) / (img.naturalHeight || 1696)
+      // ONE photo. Expanded: it stands at the right edge at (just over) full height, and the rest of
+      // the hero is a flat colour matched to the wooden door at the photo's left edge, so it reads as
+      // one continuous wall. The bottom 17% (where his shirt touches the photo edge) sits just below
+      // the fold so the seam is wood on wood. On narrow screens it simply covers, centred on him.
+      const SHOW = 0.83
       const layout = () => {
         const W = section.clientWidth, H = section.clientHeight, r = ratio()
-        const rw = Math.max(W, H * r), rh = rw / r
-        const top = -(rh - H) * FOCUS_Y
-        gsap.set(img, { width: rw, height: rh, left: (W - rw) / 2, top, xPercent: 0 })
-        return { W, H, rw, rh, top }
+        // Wide screens: wall extension (bottom strip below the fold). Narrow screens: plain cover.
+        const wide = (H / SHOW) * r < W
+        const rh = wide ? H / SHOW : Math.max(H, W / r), rw = rh * r
+        const left = rw >= W ? (W - rw) / 2 : W - rw
+        gsap.set(img, { width: rw, height: rh, left, top: 0 })
+        return { W, H, rw, rh, left }
       }
       const card = () => {
-        const { W, H, rw, rh, top } = layout()
+        const { W, H, rw, rh, left } = layout()
         const w = window.innerWidth
         const cardTop = text.offsetTop + text.offsetHeight + (w < 768 ? 20 : 32)
         const cardBottom = w < 768 ? 16 : 32
         const cardH = H - cardTop - cardBottom
-        const maxW = W - (w < 768 ? 32 : 64)
-        const cardW = Math.min(maxW, cardH * ratio())
+        const cardW = Math.min(W - (w < 768 ? 32 : 64), cardH * ratio())
         const side = (W - cardW) / 2
-        const scale = Math.max(cardW / rw, cardH / rh) // whole photo fills the card
         return {
           clip: `inset(${cardTop}px ${side}px ${cardBottom}px ${side}px round 24px)`,
-          scale,
-          y: cardTop + cardH / 2 - (top + rh / 2), // centre the photo on the card
+          scale: Math.max(cardW / rw, cardH / rh), // the whole photo fills the card
+          x: W / 2 - (left + rw / 2),
+          y: cardTop + cardH / 2 - rh / 2,
         }
       }
 
       const mm = gsap.matchMedia()
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        const apply = () => { const c = card(); gsap.set(media, { clipPath: c.clip }); gsap.set(img, { scale: c.scale, y: c.y }) }
+        const apply = () => { const c = card(); gsap.set(media, { clipPath: c.clip }); gsap.set(img, { scale: c.scale, x: c.x, y: c.y }) }
         apply()
         ScrollTrigger.addEventListener('refreshInit', apply)
         window.addEventListener('resize', apply)
@@ -81,7 +86,7 @@ export function setupHeroExpansion() {
           },
         })
         tl.fromTo(media, { clipPath: () => card().clip }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: 1 }, 0)
-          .fromTo(img, { scale: () => card().scale, y: () => card().y }, { scale: 1, y: 0, duration: 1 }, 0)
+          .fromTo(img, { scale: () => card().scale, x: () => card().x, y: () => card().y }, { scale: 1, x: 0, y: 0, duration: 1 }, 0)
           .to(text, { y: -60, opacity: 0, duration: 0.35 }, 0)
           .fromTo(caption, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.3 }, 0.65)
           .to({}, { duration: 0.15 }) // short hold on the full-screen frame before unpinning
@@ -96,7 +101,7 @@ export default function Hero() {
     <>
       <section id="home" className="relative h-[calc(100svh-var(--nav-h))] min-h-[600px] overflow-hidden bg-white">
         {/* Full-bleed photo layer, clipped into a rounded card, then expanded by scroll */}
-        <div data-hero-media className="absolute inset-0 overflow-hidden bg-navy">
+        <div data-hero-media className="absolute inset-0 overflow-hidden bg-[#51200c]">
           <Img image={images.hero} priority sizes="100vw" alt="Dr Khalil Ahmad, plastic surgeon"
             onLoad={() => ScrollTrigger.refresh()} className="absolute max-w-none origin-center" />
         </div>
