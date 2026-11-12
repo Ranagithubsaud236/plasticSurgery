@@ -1,5 +1,4 @@
-import { SectionHeading, btn } from './ui'
-import LiquidImage from './LiquidImage'
+import { Img, SectionHeading, btn } from './ui'
 import { services, whatsappLink } from '../data'
 import { gsap } from '../lib/motion'
 
@@ -61,10 +60,9 @@ export default function Services() {
             {services.map((s, i) => {
               return (
                 <li key={s.title} className="motion-safe:md:w-[clamp(340px,42vw,560px)] motion-safe:md:shrink-0">
-                  <article data-liquid-trigger className="group flex h-full flex-col">
-                    <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] aspect-[4/3] motion-safe:md:aspect-[5/4] motion-safe:md:max-h-[34svh] motion-safe:md:w-full">
-                      <LiquidImage image={s.img} alt={s.title} loading="eager" strength={0.9}
-                        sizes="(min-width: 768px) 560px, (min-width: 640px) 50vw, 100vw" />
+                  <article className="group flex h-full flex-col">
+                    <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] bg-peach aspect-[4/3] motion-safe:md:aspect-[5/4] motion-safe:md:max-h-[34svh] motion-safe:md:w-full">
+                      <Img image={s.img} alt={`${s.title} before and after, patient of Dr Khalil Ahmad`} loading="eager" sizes="400px" className="h-full w-full" />
                     </div>
                     <div className="relative -mt-14 mx-4 sm:mx-5 flex-1 rounded-[var(--img-radius)] border border-line bg-white p-6 transition-colors duration-300 group-hover:border-gold">
                       <h3 className="text-h3 text-navy">{s.title}</h3>

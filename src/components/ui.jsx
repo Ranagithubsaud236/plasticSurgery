@@ -29,7 +29,7 @@ export function Img({ image, alt = '', className = '', sizes = '100vw', priority
       decoding="async"
       onError={() => setFailed(true)}
       style={{ objectPosition: position }}
-      className={`object-cover ${className}`}
+      className={`${image.fit === 'contain' ? 'object-contain' : 'object-cover'} ${className}`}
       {...rest}
     />
   )

@@ -34,6 +34,7 @@ export const sections = [
   { id: 'about', label: 'About' },
   { id: 'services', label: 'Services' },
   { id: 'treatments', label: 'Treatments' },
+  { id: 'results', label: 'Results' },
   { id: 'procedure', label: 'Procedure' },
   { id: 'testimonials', label: 'Reviews' },
   { id: 'blog', label: 'Blog' },
@@ -61,9 +62,9 @@ export const images = {
 /* The clinic's procedures (the only three offered). Tummy tuck and abdominoplasty are the
  * same operation, so they are one service. */
 export const services = [
-  { title: 'Gynecomastia', text: 'Removes excess breast tissue in men for a flatter, firmer chest.', img: { src: 'photo-1643834534240-75aee14ecdc8', position: 'center' } }, // TODO: gynecomastia photo
-  { title: 'Rhinoplasty', text: 'Reshapes the nose to suit your face, and can make breathing easier.', img: { src: 'photo-1512290923902-8a9f81dc236c', position: 'center' } }, // TODO: rhinoplasty photo
-  { title: 'Tummy Tuck (Abdominoplasty)', text: 'Removes loose skin and fat from the abdomen and tightens the muscles underneath.', img: { src: 'photo-1747398594110-70ac0f75e3bc', position: 'center' } }, // TODO: tummy tuck photo
+  { title: 'Gynecomastia', text: 'Removes excess breast tissue in men for a flatter, firmer chest.', img: { src: '/images/results/gynecomastia-2.png', fit: 'contain' } },
+  { title: 'Rhinoplasty', text: 'Reshapes the nose to suit your face, and can make breathing easier.', img: { src: '/images/results/rhinoplasty-1.png', fit: 'contain' } },
+  { title: 'Tummy Tuck (Abdominoplasty)', text: 'Removes loose skin and fat from the abdomen and tightens the muscles underneath.', img: { src: '/images/results/abdomen-1.png', fit: 'contain' } },
 ]
 
 /* Tab selected when the page opens (must match one of the titles below). */
@@ -74,6 +75,22 @@ export const treatments = [
   { title: 'Gynecomastia', img: { src: 'photo-1551601651-2a8555f1a136', position: 'center 40%' } }, // TODO: gynecomastia photo
   { title: 'Rhinoplasty', img: { src: 'photo-1512290923902-8a9f81dc236c', position: 'center 35%' } },         // TODO: rhinoplasty photo
   { title: 'Tummy Tuck', img: { src: 'photo-1747398594110-70ac0f75e3bc', position: 'center 50%' } },        // TODO: tummy tuck photo
+]
+
+/* ------------------------------------------------------------------
+ * RESULTS: the clinic's own before/after photos (public/images/results).
+ * Shown uncropped. procedure must match a service filter below.
+ * NOTE: these files are 206x206 px; send larger originals to sharpen them.
+ * ------------------------------------------------------------------ */
+export const resultFilters = ['Gynecomastia', 'Rhinoplasty', 'Tummy & abdomen']
+export const results = [
+  { procedure: 'Gynecomastia', caption: 'Gynecomastia surgery', src: '/images/results/gynecomastia-2.png' },
+  { procedure: 'Rhinoplasty', caption: 'Rhinoplasty, front and base views', src: '/images/results/rhinoplasty-1.png' },
+  { procedure: 'Tummy & abdomen', caption: 'Abdomen liposuction', src: '/images/results/abdomen-1.png' },
+  { procedure: 'Gynecomastia', caption: 'Gynecomastia surgery', src: '/images/results/gynecomastia-3.png' },
+  { procedure: 'Rhinoplasty', caption: 'Rhinoplasty, side profile', src: '/images/results/rhinoplasty-2.png' },
+  { procedure: 'Tummy & abdomen', caption: 'Abdomen liposuction, side view', src: '/images/results/abdomen-2.png' },
+  { procedure: 'Gynecomastia', caption: 'Gynecomastia surgery, side view', src: '/images/results/gynecomastia-1.png' },
 ]
 
 export const steps = [
