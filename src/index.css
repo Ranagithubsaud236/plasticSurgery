@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* =====================================================================
+ * ADJUSTABLE KNOBS: change these to tune the whole site.
+ * ===================================================================== */
+:root {
+  /* Typography: 1 = default. 1.1 makes every heading/body size 10% larger. */
+  --type-scale: 1;
+  /* Heading weight (700 to 900) and body line-height (1.5 to 1.75 recommended). */
+  --heading-weight: 900;
+  --body-leading: 1.7;
+  /* Image corners and default focal point for photos (overridable per image in data.js). */
+  --img-radius: 0.75rem;
+  /* Height of the fixed header (nav only). Keep in sync with Navbar.jsx (h-16 / lg:h-20). */
+  --header-h: 64px;
+  --nav-h: 64px;
+}
+@media (min-width: 1024px) {
+  :root { --header-h: 80px; --nav-h: 80px; }
+}
+
+@theme {
+  --font-sans: "Lato", ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand palette */
+  --color-navy: #1d1a2b;
+  --color-navy-light: #282636;
+  --color-gold: #e3a34f;       /* fills, accents on dark backgrounds */
+  --color-gold-ink: #945c16;   /* gold TEXT/ICONS on light backgrounds, 5.5:1 on white */
+  --color-peach: #fcefdf;
+  --color-ink: #1d1a2b;
+  --color-muted: #5f5d73;      /* body copy, 6.4:1 on white, 5.6:1 on peach */
+
+  /* Solid stand-ins for every former transparency (no blending, no gradients) */
+  --color-line: #e8e8ea;       /* hairlines on white */
+  --color-line-dark: #3f3c4b;  /* hairlines on navy */
+  --color-mist: #cdcdd0;       /* secondary text on navy, 11:1 */
+  --color-navy-2: #343140;     /* selected tab on navy */
+  --color-whatsapp: #075e54;   /* WhatsApp dark green: text buttons (white text 7.5:1) */
+  --color-whatsapp-brand: #25d366;       /* official WhatsApp green: floating icon button */
+  --color-whatsapp-brand-hover: #1ebe5a; /* solid, slightly darker on hover */
+
+  /* Fluid type scale (grows smoothly from 375px to 1440px) */
+  --text-display: calc(var(--type-scale) * clamp(2.25rem, 1.4rem + 3.6vw, 3.75rem));
+  --text-display--line-height: 1.08;
+  --text-h2: calc(var(--type-scale) * clamp(1.75rem, 1.35rem + 1.7vw, 2.625rem));
+  --text-h2--line-height: 1.15;
+  --text-h3: calc(var(--type-scale) * clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem));
+  --text-h3--line-height: 1.3;
+  --text-body: calc(var(--type-scale) * clamp(1rem, 0.97rem + 0.15vw, 1.0625rem));
+  --text-body--line-height: var(--body-leading);
+  --text-meta: calc(var(--type-scale) * 0.875rem);
+  --text-meta--line-height: 1.5;
+
+  --radius-img: var(--img-radius);
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body { @apply font-sans text-body text-ink bg-white antialiased; }
+  h1, h2, h3, h4 { font-weight: var(--heading-weight); text-wrap: balance; }
+  p { text-wrap: pretty; }
+  a[href], button:not(:disabled), [role="tab"] { cursor: pointer; }
+
+  /* Visible keyboard focus everywhere (3px ring, 3:1+ contrast) */
+  :focus-visible { outline: 3px solid var(--color-gold-ink); outline-offset: 3px; border-radius: 4px; }
+  .on-dark :focus-visible { outline-color: var(--color-gold); }
+
+  /* Anchor targets land below the fixed header when JS smooth scroll is off */
+  section[id] { scroll-margin-top: calc(var(--nav-h) + 8px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+}
+
+@utility container-x {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1rem;
+  @media (min-width: 640px) { padding-inline: 1.5rem; }
+  @media (min-width: 1024px) { padding-inline: 2rem; }
+}
+
+@utility section-y {
+  padding-block: 4rem;
+  @media (min-width: 768px) { padding-block: 6rem; }
+}
