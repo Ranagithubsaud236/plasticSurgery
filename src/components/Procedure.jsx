@@ -6,8 +6,8 @@ export default function Procedure() {
   return (
     <section id="procedure" className="section-y container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
       <div>
-      <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] bg-peach aspect-square w-full">
-        <Img image={images.doctor} sizes="(min-width: 1024px) 50vw, 100vw" alt={`Rhinoplasty before and after, patient of ${clinic.name}`} className="h-full w-full" />
+      <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] bg-peach aspect-[4/5] max-h-[640px] w-full">
+        <Img image={images.doctor} sizes="(min-width: 1024px) 50vw, 100vw" alt={clinic.name} className="h-full w-full" />
       </div>
         <div className="mt-4 rounded-[var(--img-radius)] border border-line bg-white p-5 sm:p-6">
           <p className="text-h3 font-black text-navy">Want to know the cost first?</p>

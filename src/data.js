@@ -49,7 +49,7 @@ export const images = {
   about1: { src: '/images/results/hair-transplant-1.png', fit: 'contain' },
   about2: { src: '/images/results/split-ear-1.png', fit: 'contain' },
   about3: { src: '/images/results/gynecomastia-3.png', fit: 'contain' },
-  doctor: { src: '/images/results/rhinoplasty-2.png', fit: 'contain' },
+  doctor: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 15%' }, // TODO: stock doctor photo, replace with Dr Khalil Ahmad's own photo
 }
 
 /* Procedures offered (from the clinic's own services list).
@@ -60,7 +60,6 @@ export const services = [
   { title: 'Belly Liposuction', text: 'Removes stubborn fat from the abdomen and waist to reshape the belly.', img: { src: '/images/results/abdomen-1.png', fit: 'contain' } },
   { title: 'Rhinoplasty / Nose Surgery', text: 'Reshapes the nose to suit your face, and can make breathing easier.', img: { src: '/images/results/rhinoplasty-1.png', fit: 'contain' } },
   { title: 'Burn Hands and Face Surgery', text: 'Reconstructive surgery to release scars and restore movement and appearance after burns.', img: { src: '/images/results/hand-1.png', fit: 'contain' } },
-  { title: 'Lip Surgery', text: 'Corrects, reshapes or repairs the lips, including cleft lip repair.', img: null },
 ]
 
 
