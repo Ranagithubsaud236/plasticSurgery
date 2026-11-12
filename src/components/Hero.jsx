@@ -3,7 +3,7 @@ import { Img, btn, SocialIcon } from './ui'
 import { images, clinic, whatsappLink } from '../data'
 import { gsap, ScrollTrigger } from '../lib/motion'
 
-const helpItems = ['breast implants', 'body shaping', 'Botox', 'rhinoplasty']
+const helpItems = ['gynecomastia', 'rhinoplasty', 'tummy tuck (abdominoplasty)']
 
 const navH = () => document.querySelector('[data-site-nav]')?.offsetHeight ?? 80
 
@@ -26,6 +26,10 @@ export function setupHeroExpansion() {
       const caption = section.querySelector('[data-hero-caption]')
 
       // Rounded card that starts just below the headline.
+      // How far the photo is pushed down so the subject (face) shows inside the starting card,
+      // which begins below the headline. It glides back to 0 as the card expands.
+      const faceShift = () => Math.round((text.offsetTop + text.offsetHeight) * 0.85)
+
       const cardClip = () => {
         const w = window.innerWidth
         const side = w < 768 ? 16 : Math.max(32, (w - 1280) / 2 + 32)
@@ -36,7 +40,7 @@ export function setupHeroExpansion() {
       const mm = gsap.matchMedia()
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        const apply = () => gsap.set(media, { clipPath: cardClip() })
+        const apply = () => { gsap.set(media, { clipPath: cardClip() }); gsap.set(img, { y: faceShift() }) }
         apply()
         ScrollTrigger.addEventListener('refreshInit', apply)
         window.addEventListener('resize', apply)
@@ -60,7 +64,7 @@ export function setupHeroExpansion() {
           },
         })
         tl.fromTo(media, { clipPath: cardClip }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: 1 }, 0)
-          .fromTo(img, { scale: 1.18 }, { scale: 1, duration: 1 }, 0)
+          .fromTo(img, { scale: 1.18, y: faceShift }, { scale: 1, y: 0, duration: 1 }, 0)
           .to(text, { y: -60, opacity: 0, duration: 0.35 }, 0)
           .fromTo(caption, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.3 }, 0.65)
           .to({}, { duration: 0.15 }) // short hold on the full-screen frame before unpinning
@@ -76,7 +80,7 @@ export default function Hero() {
       <section id="home" className="relative h-[calc(100svh-var(--nav-h))] min-h-[600px] overflow-hidden bg-white">
         {/* Full-bleed photo layer, clipped into a rounded card, then expanded by scroll */}
         <div data-hero-media className="absolute inset-0 overflow-hidden bg-peach">
-          <Img image={images.hero} priority sizes="100vw" alt="Patient receiving a cosmetic treatment" className="h-full w-full" />
+          <Img image={images.hero} priority sizes="100vw" alt="Doctor portrait" className="h-full w-full" />
         </div>
 
         {/* Headline (above the card) */}
@@ -85,7 +89,7 @@ export default function Hero() {
             {clinic.name}, {clinic.specialty}
           </p>
           <h1 data-hero-title className="mx-auto max-w-4xl text-display text-navy">
-            Plastic and reconstructive surgery in {city}
+            Gynecomastia, rhinoplasty and tummy tuck surgery in {city}
           </h1>
           <div data-hero-fade className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <a href="#contact" className={btn.dark}>Book a consultation</a>
@@ -118,14 +122,14 @@ export default function Hero() {
             <div>
               <h2 className="text-h3 text-navy">Not sure where to start?</h2>
               <p className="mt-3 text-muted">
-                Most people come in with one question. The ones we hear most are about {helpItems.slice(0, -1).join(', ')} and {helpItems.at(-1)}.
+                The clinic focuses on three procedures: {helpItems.slice(0, -1).join(', ')} and {helpItems.at(-1)}. Bring your question to a consultation.
               </p>
               <a href="#services" className="mt-4 inline-flex min-h-11 items-center font-bold text-gold-ink underline-offset-4 hover:underline">
                 See all procedures
               </a>
             </div>
             <p className="self-center text-h3 font-black text-navy">
-              Bring your question. You will leave knowing what is possible for you.
+              Three procedures, done often and done carefully.
             </p>
           </div>
           <div className="on-dark flex flex-col justify-center rounded-[var(--img-radius)] bg-navy p-6 sm:p-8 text-white">

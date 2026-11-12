@@ -48,34 +48,32 @@ export const sections = [
  *             e.g. 'center', 'top', '50% 30%', 'right center'.
  * ------------------------------------------------------------------ */
 export const images = {
-  hero: { src: 'photo-1570172619644-dfd03ed5d881', position: '60% 30%' },
-  about1: { src: 'photo-1616394584738-fc6e612e71b9', position: 'center' },
-  about2: { src: 'photo-1594824476967-48c8b964273f', position: 'center top' },
-  about3: { src: 'photo-1512290923902-8a9f81dc236c', position: 'center' },
-  doctorAvatar: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 20%' }, // TODO: real photo of the doctor
-  doctor: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 25%' },
+  // PHOTO SLOTS: every src below is a temporary stock photo until the clinic's own photos are added.
+  hero: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 12%' },          // TODO: Dr Khalil Ahmad portrait (hero, scroll-expanding)
+  about1: { src: 'photo-1579684385127-1ef15d508118', position: 'center' },        // TODO: clinic / theatre photo
+  about2: { src: 'photo-1551601651-2a8555f1a136', position: 'center' },       // TODO: doctor at work
+  about3: { src: 'photo-1512290923902-8a9f81dc236c', position: 'center' },              // TODO: consultation photo
+  doctorAvatar: { src: 'photo-1612349317150-e413f6a5b16d', position: 'center 20%' },  // TODO: Dr Khalil Ahmad headshot
+  doctor: { src: 'photo-1643834534240-75aee14ecdc8', position: 'center' },           // TODO: doctor with a patient (How it works)
   testimonial: { src: '/images/review-facial.png', position: 'center 30%' }, // half-mask facial photo supplied by the client
-  reviewer: { src: 'photo-1438761681033-6461ffad8d80', position: 'center' },
 }
 
+/* The clinic's procedures (the only three offered). Tummy tuck and abdominoplasty are the
+ * same operation, so they are one service. */
 export const services = [
-  { title: 'Rhinoplasty', text: 'Reshape and refine the nose for balance and easier breathing.', img: { src: 'photo-1522337360788-8b13dee7a37e', position: 'center' } },
-  { title: 'Botox Injection', text: 'Soften lines and wrinkles with a quick, non-surgical treatment.', img: { src: 'photo-1570172619644-dfd03ed5d881', position: '60% 30%' } },
-  { title: 'Breast Implant', text: 'Augmentation and reconstruction planned around your body.', img: { src: 'photo-1551601651-2a8555f1a136', position: 'center' } },
-  { title: 'Facelift', text: 'Lift sagging skin for a natural, refreshed appearance.', img: { src: 'photo-1487412947147-5cebf100ffc2', position: 'center 30%' } },
-  { title: 'Body Shaping', text: 'Liposuction and contouring to define your silhouette.', img: { src: 'photo-1519824145371-296894a0daa9', position: 'center' } },
-  { title: 'Buttocks Reshape', text: 'Enhance shape and proportion with tailored techniques.', img: { src: 'photo-1544161515-4ab6ce6db874', position: 'center' } },
+  { title: 'Gynecomastia', text: 'Removes excess breast tissue in men for a flatter, firmer chest.', img: { src: 'photo-1643834534240-75aee14ecdc8', position: 'center' } }, // TODO: gynecomastia photo
+  { title: 'Rhinoplasty', text: 'Reshapes the nose to suit your face, and can make breathing easier.', img: { src: 'photo-1512290923902-8a9f81dc236c', position: 'center' } }, // TODO: rhinoplasty photo
+  { title: 'Tummy Tuck (Abdominoplasty)', text: 'Removes loose skin and fat from the abdomen and tightens the muscles underneath.', img: { src: 'photo-1747398594110-70ac0f75e3bc', position: 'center' } }, // TODO: tummy tuck photo
 ]
 
 /* Tab selected when the page opens (must match one of the titles below). */
-export const defaultTreatment = 'Rejuvenation'
+export const defaultTreatment = 'Gynecomastia'
 
-// Treatment banner photos (free Unsplash licence). Swap for the clinic's own photos any time.
+// Treatment banner: one tab per procedure.
 export const treatments = [
-  { title: 'Botox Injection', img: { src: 'photo-1746708810803-722593e53772', position: 'center 30%' } }, // forehead injection, Mina Rad
-  { title: 'Body Shaping', img: { src: 'photo-1761819922058-d15028ed9817', position: 'center 55%' } }, // cavitation device on abdomen, Patient Perfect
-  { title: 'Breast Injection', img: { src: 'photo-1644613569194-bd66cf476414', position: 'center' } }, // silicone implant in gloved hands, Philippe Spitalier
-  { title: 'Rejuvenation', img: { src: 'photo-1713085085470-fba013d67e65', position: 'center 40%' } }, // hydrafacial treatment, Look Studio
+  { title: 'Gynecomastia', img: { src: 'photo-1551601651-2a8555f1a136', position: 'center 40%' } }, // TODO: gynecomastia photo
+  { title: 'Rhinoplasty', img: { src: 'photo-1512290923902-8a9f81dc236c', position: 'center 35%' } },         // TODO: rhinoplasty photo
+  { title: 'Tummy Tuck', img: { src: 'photo-1747398594110-70ac0f75e3bc', position: 'center 50%' } },        // TODO: tummy tuck photo
 ]
 
 export const steps = [
@@ -85,11 +83,12 @@ export const steps = [
   { title: 'Procedure and follow-up', text: 'Check-up visits continue until you have healed.' },
 ]
 
+// TODO: replace with real articles (titles below are topic placeholders linking to the Facebook page).
 export const posts = [
-  { title: 'Illegal Injections: Risks and Warnings You Must Know', tag: 'Safety', img: { src: 'photo-1616394584738-fc6e612e71b9', position: 'center' } },
-  { title: 'Why Cosmetic Surgery Keeps Growing in Popularity', tag: 'Insights', img: { src: 'photo-1579684385127-1ef15d508118', position: 'center' } },
-  { title: '10 Things You Must Know About Plastic Surgery', tag: 'Guide', img: { src: 'photo-1512290923902-8a9f81dc236c', position: 'center' } },
-  { title: 'Breast Implants: Choosing the Right Option', tag: 'Guide', img: { src: 'photo-1551601651-2a8555f1a136', position: 'center' } },
+  { title: 'Gynecomastia surgery: what recovery really looks like', tag: 'Gynecomastia', img: { src: 'photo-1643834534240-75aee14ecdc8', position: 'center' } },
+  { title: 'Rhinoplasty: questions to ask before you book', tag: 'Rhinoplasty', img: { src: 'photo-1512290923902-8a9f81dc236c', position: 'center' } },
+  { title: 'Tummy tuck or liposuction: which one fits your goal?', tag: 'Tummy tuck', img: { src: 'photo-1747398594110-70ac0f75e3bc', position: 'center' } },
+  { title: 'Getting ready for surgery: a simple checklist', tag: 'Preparation', img: { src: 'photo-1579684385127-1ef15d508118', position: 'center' } },
 ]
 
 /* ------------------------------------------------------------------

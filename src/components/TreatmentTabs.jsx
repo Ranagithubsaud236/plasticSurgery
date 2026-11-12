@@ -34,7 +34,7 @@ export default function TreatmentTabs() {
         ))}
 
         {/* Columns over the photo: names at the top, thin solid dividers between */}
-        <div role="tablist" aria-label="Choose a treatment" onKeyDown={onKeyDown} className="absolute inset-0 grid grid-cols-4">
+        <div role="tablist" aria-label="Choose a treatment" onKeyDown={onKeyDown} className="absolute inset-0 grid" style={{ gridTemplateColumns: `repeat(${treatments.length}, minmax(0, 1fr))` }}>
           {treatments.map((t, i) => (
             <button
               key={t.title}

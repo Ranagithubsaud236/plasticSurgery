@@ -16,7 +16,7 @@ export default function Footer() {
         <div>
           <Logo light />
           <p className="mt-6 max-w-xs">
-            Cosmetic and reconstructive surgery in {clinic.city}.
+            Gynecomastia, rhinoplasty and tummy tuck surgery in {clinic.city}.
           </p>
           <a href={clinic.maps} target="_blank" rel="noreferrer" className="mt-4 flex min-h-11 items-start gap-2 hover:text-gold transition-colors">
             <MapPin className="mt-1 h-4 w-4 shrink-0 text-gold" aria-hidden /> {clinic.address}

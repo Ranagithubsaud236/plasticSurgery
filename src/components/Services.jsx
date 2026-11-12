@@ -60,11 +60,11 @@ export default function Services() {
               motion-safe:md:flex motion-safe:md:w-max motion-safe:md:gap-8">
             {services.map((s, i) => {
               return (
-                <li key={s.title} className="motion-safe:md:w-[clamp(300px,30vw,400px)] motion-safe:md:shrink-0">
+                <li key={s.title} className="motion-safe:md:w-[clamp(340px,42vw,560px)] motion-safe:md:shrink-0">
                   <article data-liquid-trigger className="group flex h-full flex-col">
                     <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] aspect-[4/3] motion-safe:md:aspect-[5/4] motion-safe:md:max-h-[34svh] motion-safe:md:w-full">
                       <LiquidImage image={s.img} alt={s.title} loading="eager" strength={0.9}
-                        sizes="(min-width: 768px) 400px, (min-width: 640px) 50vw, 100vw" />
+                        sizes="(min-width: 768px) 560px, (min-width: 640px) 50vw, 100vw" />
                     </div>
                     <div className="relative -mt-14 mx-4 sm:mx-5 flex-1 rounded-[var(--img-radius)] border border-line bg-white p-6 transition-colors duration-300 group-hover:border-gold">
                       <h3 className="text-h3 text-navy">{s.title}</h3>
