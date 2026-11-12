@@ -1,14 +1,15 @@
-import { SectionHeading } from './ui'
-import LiquidImage from './LiquidImage'
+import { Img, SectionHeading } from './ui'
 import { images, clinic, steps } from '../data'
 
 
 export default function Procedure() {
   return (
     <section id="procedure" className="section-y container-x grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-      <div data-img-reveal data-liquid-trigger className="relative overflow-hidden rounded-[var(--img-radius)] aspect-[4/5] max-h-[640px] w-full">
-        <LiquidImage image={images.doctor} sizes="(min-width: 1024px) 50vw, 100vw" alt="Doctor greeting a patient" strength={0.8} />
-        <div className="absolute inset-x-4 bottom-4 sm:inset-x-auto sm:left-8 sm:bottom-8 sm:max-w-[280px] rounded-[var(--img-radius)] border border-line bg-white p-5 sm:p-6">
+      <div>
+      <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] bg-peach aspect-square w-full">
+        <Img image={images.doctor} sizes="(min-width: 1024px) 50vw, 100vw" alt={`Rhinoplasty before and after, patient of ${clinic.name}`} className="h-full w-full" />
+      </div>
+        <div className="mt-4 rounded-[var(--img-radius)] border border-line bg-white p-5 sm:p-6">
           <p className="text-h3 font-black text-navy">Want to know the cost first?</p>
           <p className="mt-1 text-muted">You get a full estimate at the consultation.</p>
           <a href="#contact" className="mt-2 inline-flex min-h-11 items-center font-bold text-gold-ink underline-offset-4 hover:underline">

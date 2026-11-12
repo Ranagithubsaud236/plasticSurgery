@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
-import { Img, Label, SocialIcon, btn } from './ui'
-import { images, clinic, reviews } from '../data'
+import { Label, SocialIcon, btn } from './ui'
+import { clinic, reviews, logo } from '../data'
 
 const initials = (name) => name.split(/\s+/).map((p) => p[0]).join('').slice(0, 2).toUpperCase()
 
@@ -82,8 +82,12 @@ export default function Testimonial() {
   return (
     <section id="testimonials" aria-label="Patient reviews" className="container-x pb-16 md:pb-24">
       <div className="relative overflow-hidden rounded-[var(--img-radius)] bg-navy md:grid md:min-h-[clamp(460px,40vw,540px)] md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
-        <div data-img-reveal className="relative aspect-square overflow-hidden sm:aspect-[16/10] md:aspect-auto">
-          <Img image={images.testimonial} sizes="(min-width: 768px) 50vw, 100vw" alt="" className="absolute inset-0 h-full w-full" />
+        <div data-img-reveal className="relative grid aspect-[16/10] place-items-center overflow-hidden bg-peach md:aspect-auto">
+          <div className="flex flex-col items-center gap-3 px-6 pb-16 text-center md:pb-0">
+            <img src={logo} alt="" width="64" height="97" className="h-24 w-auto" />
+            <p className="text-h3 font-black text-navy">{clinic.name}</p>
+            <p className="-mt-2 text-meta font-bold uppercase tracking-[0.14em] text-gold-ink">{clinic.specialty}</p>
+          </div>
         </div>
         <div aria-hidden className="hidden md:block" />
 

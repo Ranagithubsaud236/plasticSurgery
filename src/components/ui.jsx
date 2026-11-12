@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { clinic, whatsappLink } from '../data'
+import { clinic, whatsappLink, logo } from '../data'
 
 const unsplash = (id, w) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=75`
 const WIDTHS = [480, 768, 1080, 1600]
@@ -68,10 +68,7 @@ export const btn = {
 export function Logo({ light = false }) {
   return (
     <a href="#home" className="flex min-h-11 items-center gap-2.5" aria-label={`${clinic.name}, home`}>
-      <svg viewBox="0 0 32 40" className="h-9 w-7 shrink-0" aria-hidden>
-        <path d="M16 2C9 12 4 18 4 26a12 12 0 0 0 24 0C28 18 23 12 16 2Z" fill="#e3a34f" />
-        <path d="M16 12c-4 6-6 10-6 14a6 6 0 0 0 12 0c0-4-2-8-6-14Z" fill={light ? '#1d1a2b' : '#fff'} />
-      </svg>
+      <img src={logo} alt="" width="27" height="40" className="h-10 w-auto shrink-0" />
       <span className="leading-none">
         <span className={`block text-lg sm:text-xl font-black tracking-tight ${light ? 'text-white' : 'text-navy'}`}>{clinic.name}</span>
         <span className={`mt-1 block text-[0.6875rem] font-bold uppercase tracking-[0.2em] ${light ? 'text-gold' : 'text-gold-ink'}`}>

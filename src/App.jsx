@@ -6,11 +6,9 @@ import Hero from './components/Hero'
 import About from './components/About'
 import Stats from './components/Stats'
 import Services from './components/Services'
-import TreatmentTabs from './components/TreatmentTabs'
 import Results from './components/Results'
 import Procedure from './components/Procedure'
 import Testimonial from './components/Testimonial'
-import Blog from './components/Blog'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import useSiteAnimations from './lib/useSiteAnimations'
@@ -35,11 +33,9 @@ export default function App() {
             <About />
             <Stats />
             <Services />
-            <TreatmentTabs />
             <Results />
             <Procedure />
             <Testimonial />
-            <Blog />
             <Contact />
           </main>
           <Footer />

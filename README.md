@@ -34,7 +34,7 @@ These are placeholders in `src/data.js` and must be replaced with real details:
 - `clinic.address`, `clinic.hours`
 - `clinic.siteUrl`, plus the domain in `public/sitemap.xml` and `public/robots.txt`
 - `reviews` (copy real reviews from the Google Maps listing, with the clinic's OK)
-- Blog post titles in `posts`, and the doctor's real photos
+- Before/after photos for burn and lip surgery, larger originals of the existing photos, and a clean (unwatermarked) logo file
 
 ## Motion and accessibility
 

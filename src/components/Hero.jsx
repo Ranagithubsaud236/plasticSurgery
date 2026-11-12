@@ -1,20 +1,16 @@
 import { Phone } from 'lucide-react'
-import { Img, btn, SocialIcon } from './ui'
-import { images, clinic, whatsappLink } from '../data'
+import { btn, SocialIcon } from './ui'
+import { clinic, whatsappLink, services, logo } from '../data'
 import { gsap, ScrollTrigger } from '../lib/motion'
 
-const helpItems = ['gynecomastia', 'rhinoplasty', 'tummy tuck (abdominoplasty)']
+const helpItems = services.map((s) => s.title.split(' /')[0].toLowerCase())
 
 const navH = () => document.querySelector('[data-site-nav]')?.offsetHeight ?? 80
 
 /**
- * Scroll-bound hero expansion (scale-to-fill / immersive zoom).
- * 1. Headline sits above a rounded photo "card".
- * 2. While the hero is pinned, scrolling grows the card's frame until the photo fills the screen,
- *    the photo zooms out from 1.18 → 1 (never stretched: object-cover keeps its aspect ratio),
- *    the headline lifts away and a caption fades in.
- * Scrubbed to the scrollbar, so it is user-driven and fully reversible.
- * Reduced motion: no pin, the rounded card layout simply stays.
+ * Scroll-bound hero expansion: a rounded navy card under the headline holds the list of
+ * procedures; while the hero is pinned, scrolling grows the card to fill the screen and the
+ * headline lifts away. Scrubbed, so it is reversible. Reduced motion: the card simply stays.
  */
 /** Called from useSiteAnimations (after ScrollSmoother exists). */
 export function setupHeroExpansion() {
@@ -22,13 +18,11 @@ export function setupHeroExpansion() {
       if (!section) return
       const text = section.querySelector('[data-hero-text]')
       const media = section.querySelector('[data-hero-media]')
-      const img = media.querySelector('img')
-      const caption = section.querySelector('[data-hero-caption]')
+      const content = media.querySelector('[data-hero-content]')
 
-      // Rounded card that starts just below the headline.
-      // How far the photo is pushed down so the subject (face) shows inside the starting card,
-      // which begins below the headline. It glides back to 0 as the card expands.
-      const faceShift = () => Math.round((text.offsetTop + text.offsetHeight) * 0.85)
+      // Rounded card that starts just below the headline. The content is centred in the full
+      // section, so it is pushed down to sit in the middle of the card, then glides back.
+      const faceShift = () => Math.round((text.offsetTop + text.offsetHeight) * 0.5)
 
       const cardClip = () => {
         const w = window.innerWidth
@@ -40,7 +34,7 @@ export function setupHeroExpansion() {
       const mm = gsap.matchMedia()
 
       mm.add('(prefers-reduced-motion: reduce)', () => {
-        const apply = () => { gsap.set(media, { clipPath: cardClip() }); gsap.set(img, { y: faceShift() }) }
+        const apply = () => { gsap.set(media, { clipPath: cardClip() }); gsap.set(content, { y: faceShift() }) }
         apply()
         ScrollTrigger.addEventListener('refreshInit', apply)
         window.addEventListener('resize', apply)
@@ -64,9 +58,8 @@ export function setupHeroExpansion() {
           },
         })
         tl.fromTo(media, { clipPath: cardClip }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: 1 }, 0)
-          .fromTo(img, { scale: 1.18, y: faceShift }, { scale: 1, y: 0, duration: 1 }, 0)
+          .fromTo(content, { scale: 0.92, y: faceShift }, { scale: 1, y: 0, duration: 1 }, 0)
           .to(text, { y: -60, opacity: 0, duration: 0.35 }, 0)
-          .fromTo(caption, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.3 }, 0.65)
           .to({}, { duration: 0.15 }) // short hold on the full-screen frame before unpinning
       })
 }
@@ -78,9 +71,18 @@ export default function Hero() {
   return (
     <>
       <section id="home" className="relative h-[calc(100svh-var(--nav-h))] min-h-[600px] overflow-hidden bg-white">
-        {/* Full-bleed photo layer, clipped into a rounded card, then expanded by scroll */}
-        <div data-hero-media className="absolute inset-0 overflow-hidden bg-peach">
-          <Img image={images.hero} priority sizes="100vw" alt="Doctor portrait" className="h-full w-full" />
+        {/* Full-bleed navy layer, clipped into a rounded card, then expanded by scroll */}
+        <div data-hero-media className="on-dark absolute inset-0 grid place-items-center overflow-hidden bg-navy text-white">
+          <div data-hero-content className="container-x text-center">
+            <img src={logo} alt="" width="37" height="56" className="mx-auto mb-4 h-12 w-auto sm:h-14" />
+            <p className="text-meta font-bold uppercase tracking-[0.14em] text-gold">Procedures offered</p>
+            <ul className="mx-auto mt-4 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-2 sm:mt-6 sm:gap-y-4 md:grid-cols-3">
+              {services.map((s) => (
+                <li key={s.title} className="text-[0.9375rem] font-black leading-snug sm:text-h3">{s.title}</li>
+              ))}
+            </ul>
+            <a href="#services" className={`${btn.gold} mt-5 sm:mt-8`}>See all procedures</a>
+          </div>
         </div>
 
         {/* Headline (above the card) */}
@@ -89,7 +91,7 @@ export default function Hero() {
             {clinic.name}, {clinic.specialty}
           </p>
           <h1 data-hero-title className="mx-auto max-w-4xl text-display text-navy">
-            Gynecomastia, rhinoplasty and tummy tuck surgery in {city}
+            Plastic and reconstructive surgery in {city}
           </h1>
           <div data-hero-fade className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <a href="#contact" className={btn.dark}>Book a consultation</a>
@@ -99,20 +101,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Caption revealed once the photo fills the screen */}
-        {/* autoAlpha keeps it invisible AND unfocusable until revealed */}
-        <div data-hero-caption className="invisible absolute inset-x-0 bottom-0 z-10 opacity-0">
-          <div className="container-x pb-12 md:pb-20">
-            <div className="on-dark max-w-lg rounded-[var(--img-radius)] bg-navy p-6 sm:p-8 text-white">
-              <p className="text-h2 font-black">Every plan starts with a conversation.</p>
-              <p className="mt-4 text-mist">
-                Tell {clinic.name} what you would like to change. You will hear what is realistic, what it costs and
-                how recovery goes, before anything is booked.
-              </p>
-              <a href="#services" className={`${btn.gold} mt-6`}>See all procedures</a>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Quick help + consultation cards */}
@@ -122,14 +110,14 @@ export default function Hero() {
             <div>
               <h2 className="text-h3 text-navy">Not sure where to start?</h2>
               <p className="mt-3 text-muted">
-                The clinic focuses on three procedures: {helpItems.slice(0, -1).join(', ')} and {helpItems.at(-1)}. Bring your question to a consultation.
+                The clinic offers {helpItems.slice(0, -1).join(', ')} and {helpItems.at(-1)}. Bring your question to a consultation.
               </p>
               <a href="#services" className="mt-4 inline-flex min-h-11 items-center font-bold text-gold-ink underline-offset-4 hover:underline">
                 See all procedures
               </a>
             </div>
             <p className="self-center text-h3 font-black text-navy">
-              Three procedures, done often and done carefully.
+              Every plan starts with a conversation about what is realistic for you.
             </p>
           </div>
           <div className="on-dark flex flex-col justify-center rounded-[var(--img-radius)] bg-navy p-6 sm:p-8 text-white">

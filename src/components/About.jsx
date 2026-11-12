@@ -1,6 +1,5 @@
 import { Img, SectionHeading, btn } from './ui'
-import LiquidImage from './LiquidImage'
-import { images, clinic } from '../data'
+import { images, clinic, logo } from '../data'
 
 // What a visitor can ask about at the first consultation (no unverified claims).
 // TODO: add the doctor's real qualifications and hospital affiliations once confirmed.
@@ -35,7 +34,7 @@ export default function About() {
         <div data-reveal className="mt-10 flex flex-wrap items-center gap-6">
           <a href="#contact" className={btn.gold}>Book a consultation</a>
           <div className="flex items-center gap-3">
-            <Img image={images.doctorAvatar} sizes="48px" alt="" className="h-12 w-12 rounded-full" />
+            <img src={logo} alt="" width="32" height="48" className="h-12 w-auto" />
             <div className="leading-tight">
               <p className="font-black text-navy">{clinic.name}</p>
               <p className="text-meta text-muted">{clinic.specialty}</p>
@@ -45,14 +44,14 @@ export default function About() {
       </div>
 
       <div data-img-group className="grid grid-cols-2 gap-3 sm:gap-5">
-        <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] aspect-[3/4]">
-          <LiquidImage image={images.about1} sizes="(min-width: 1024px) 25vw, 50vw" alt="Facial treatment in progress" />
+        <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] bg-peach aspect-square">
+          <Img image={images.about1} sizes="(min-width: 1024px) 25vw, 50vw" alt={`Hair transplant before and after, patient of ${clinic.name}`} className="h-full w-full" />
         </div>
-        <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] aspect-[3/4] translate-y-6 sm:translate-y-10">
-          <LiquidImage image={images.about2} sizes="(min-width: 1024px) 25vw, 50vw" alt="Clinic specialist" />
+        <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] bg-peach aspect-square translate-y-6 sm:translate-y-10">
+          <Img image={images.about2} sizes="(min-width: 1024px) 25vw, 50vw" alt={`Split ear repair before and after, patient of ${clinic.name}`} className="h-full w-full" />
         </div>
-        <div data-img-reveal className="col-span-2 overflow-hidden rounded-[var(--img-radius)] aspect-[16/7] mt-6 sm:mt-10">
-          <LiquidImage image={images.about3} sizes="(min-width: 1024px) 50vw, 100vw" alt="Skin procedure" strength={0.8} />
+        <div data-img-reveal className="col-span-2 overflow-hidden rounded-[var(--img-radius)] bg-peach aspect-[16/9] mt-6 sm:mt-10">
+          <Img image={images.about3} sizes="(min-width: 1024px) 50vw, 100vw" alt={`Gynecomastia surgery before and after, patient of ${clinic.name}`} className="h-full w-full" />
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { Img, SectionHeading, btn } from './ui'
-import { services, whatsappLink } from '../data'
+import { services, whatsappLink, logo } from '../data'
 import { gsap } from '../lib/motion'
 
 const navH = () => document.querySelector('[data-site-nav]')?.offsetHeight ?? 80
@@ -59,10 +59,14 @@ export default function Services() {
               motion-safe:md:flex motion-safe:md:w-max motion-safe:md:gap-8">
             {services.map((s, i) => {
               return (
-                <li key={s.title} className="motion-safe:md:w-[clamp(340px,42vw,560px)] motion-safe:md:shrink-0">
+                <li key={s.title} className="motion-safe:md:w-[clamp(300px,30vw,400px)] motion-safe:md:shrink-0">
                   <article className="group flex h-full flex-col">
                     <div data-img-reveal className="overflow-hidden rounded-[var(--img-radius)] bg-peach aspect-[4/3] motion-safe:md:aspect-[5/4] motion-safe:md:max-h-[34svh] motion-safe:md:w-full">
-                      <Img image={s.img} alt={`${s.title} before and after, patient of Dr Khalil Ahmad`} loading="eager" sizes="400px" className="h-full w-full" />
+                      {s.img ? (
+                        <Img image={s.img} alt={`${s.title} before and after, patient of Dr Khalil Ahmad`} loading="eager" sizes="400px" className="h-full w-full" />
+                      ) : (
+                        <div className="grid h-full w-full place-items-center pb-14"><img src={logo} alt="" width="40" height="61" className="h-20 w-auto" /></div>
+                      )}
                     </div>
                     <div className="relative -mt-14 mx-4 sm:mx-5 flex-1 rounded-[var(--img-radius)] border border-line bg-white p-6 transition-colors duration-300 group-hover:border-gold">
                       <h3 className="text-h3 text-navy">{s.title}</h3>
