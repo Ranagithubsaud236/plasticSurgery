@@ -10,11 +10,11 @@ export const clinic = {
   specialty: 'Plastic Surgeon',
   city: 'Lahore, Pakistan',
   address: 'Lahore, Punjab, Pakistan', // TODO: full street address
-  phone: '+92 300 0000000', // TODO: real clinic phone
-  phoneHref: 'tel:+923000000000', // TODO: match the phone above
+  phone: '+92 335 6596730',
+  phoneHref: 'tel:+923356596730',
   // WhatsApp: international format, digits only, e.g. '923001234567'. Leave '' to hide every
   // WhatsApp button (we never link to an unverified number).
-  whatsapp: '',
+  whatsapp: '923356596730',
   whatsappGreeting: 'Hello Dr Khalil Ahmad, I would like to book a consultation.',
   hours: 'Mon - Sat, by appointment', // TODO: real clinic hours
   facebook: 'https://www.facebook.com/profile.php?id=61571782904298',
@@ -66,6 +66,9 @@ export const services = [
   { title: 'Body Shaping', text: 'Liposuction and contouring to define your silhouette.', img: { src: 'photo-1519824145371-296894a0daa9', position: 'center' } },
   { title: 'Buttocks Reshape', text: 'Enhance shape and proportion with tailored techniques.', img: { src: 'photo-1544161515-4ab6ce6db874', position: 'center' } },
 ]
+
+/* Tab selected when the page opens (must match one of the titles below). */
+export const defaultTreatment = 'Rejuvenation'
 
 // Treatment banner photos (free Unsplash licence). Swap for the clinic's own photos any time.
 export const treatments = [

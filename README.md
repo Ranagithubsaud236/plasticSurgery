@@ -31,8 +31,7 @@ Put your own photos in `public/images/` and reference them as `/images/your-file
 
 These are placeholders in `src/data.js` and must be replaced with real details:
 
-- `clinic.phone` / `clinic.phoneHref`, `clinic.address`, `clinic.hours`
-- `clinic.whatsapp` (WhatsApp buttons stay hidden until this is set)
+- `clinic.address`, `clinic.hours`
 - `clinic.siteUrl`, plus the domain in `public/sitemap.xml` and `public/robots.txt`
 - `reviews` (copy real reviews from the Google Maps listing, with the clinic's OK)
 - Blog post titles in `posts`, and the doctor's real photos

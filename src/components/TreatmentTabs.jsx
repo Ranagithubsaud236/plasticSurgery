@@ -1,16 +1,17 @@
 import { useRef, useState } from 'react'
 import { Img } from './ui'
-import { treatments } from '../data'
+import { treatments, defaultTreatment } from '../data'
 
 /**
  * Full-width treatment showcase (matches the reference design).
  * The photo fills the band; four full-height columns sit on top of it, separated by thin
  * solid divider lines, with each treatment name centred at the top of its column.
- * Hover (desktop) or tap/click a column to switch the photo. Arrow keys move between tabs.
+ * Click or tap a column to switch the photo (no hover switching). Arrow keys move between tabs.
+ * The tab named by defaultTreatment (data.js) is selected whenever the page opens.
  * No tint over the photo: labels stay readable with a crisp 1px navy edge (not a blur/glow).
  */
 export default function TreatmentTabs() {
-  const [active, setActive] = useState(0)
+  const [active, setActive] = useState(() => Math.max(0, treatments.findIndex((t) => t.title === defaultTreatment)))
   const tabs = useRef([])
 
   const onKeyDown = (e) => {
@@ -44,7 +45,6 @@ export default function TreatmentTabs() {
               aria-selected={i === active}
               aria-controls={`treatment-panel-${i}`}
               tabIndex={i === active ? 0 : -1}
-              onMouseEnter={() => setActive(i)}
               onClick={() => setActive(i)}
               className="group relative flex h-full items-start justify-center border-line px-1 pt-6 text-center not-last:border-r sm:px-3 sm:pt-10 md:pt-12"
             >
